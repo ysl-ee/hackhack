@@ -3,15 +3,23 @@ import time
 
 arduino = serial.Serial(port = "COM3", baudrate=115200, timeout=.1)
 
-def write_read(x):
+wordsBad = ["shit", "asshole", "bitch", "poop", "piss"]
+wordsVeryBad = ["fuck", "dick", "cock", "pussy", "tits", "cunt"]
+
+def write(x):
     arduino.write(bytes(x, 'utf-8'))
-    time.sleep(0.05)
-    data = arduino.readline()
-    return data
+    time.sleep(0.01)
+    return 0
 
 while True:
-    word = input("Enter a word: ")
-    if (word.upper() == "FUCK" or word.upper() == "FUCKING"):
-        value = write_read("1")
-    else:
-        value = write_read("0")
+    inputWord = input("Enter a word: ").lower()
+    for i in wordsBad:
+        if inputWord == i:
+            write("1")
+        else:
+            write("0")
+    for j in wordsVeryBad:
+        if inputWord == j:
+            write("4")
+        else:
+            write("0")
