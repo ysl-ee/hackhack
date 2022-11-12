@@ -1,14 +1,25 @@
 import readAudio
+import time
+from datetime import datetime
 
 config = dict(language_code="en-US")
-
-# take real time input & save to cloud
-print("====STARTING FCC REGULATOR====")
-    # prob take the time here and input so we know what it's called lol
 mytime = datetime.now().strftime('%Y-%m-%d_%H:%M:%S')
-audio = ??????
+
+
+# chop up audio into small chunks
+
+# # take real time input & save to cloud
+# print("====STARTING FCC REGULATOR====")
+#     # prob take the time here and input so we know what it's called lol
+# mytime = datetime.now().strftime('%Y-%m-%d_%H:%M:%S')
+# audio = ??????
+#change filename things to number
 
 # save transcript -- this part working!
 readAudio.speech_to_text(config, audio, mytime)
 
-# send transcript to arduino
+# read text files (like every 30 sec or smth)
+
+# detect bad words!
+
+# send hardware output to arduino
