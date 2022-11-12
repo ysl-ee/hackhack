@@ -11,12 +11,16 @@ def speech_to_text(config, audio):
 
 
 def print_sentences(response):
+    f = open('audio.txt', 'w+')
     for result in response.results:
         best_alternative = result.alternatives[0]
         transcript = best_alternative.transcript
         confidence = best_alternative.confidence
         print("-" * 80)
         print(f"Transcript: {transcript}")
+        S = ''.join(transcript)
+        f.write(S)
+        f.write('\n')
         print(f"Confidence: {confidence:.0%}")
 
 
