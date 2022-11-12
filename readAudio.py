@@ -10,7 +10,7 @@ def transcribe_gcs_with_word_time_offsets(speech_file):
 
     audio = speech.RecognitionAudio(content=content)
     config = speech.RecognitionConfig(
-        encoding=speech.RecognitionConfig.AudioEncoding.FLAC,
+        encoding=speech.RecognitionConfig.AudioEncoding.ENCODING_UNSPECIFIED,
         sample_rate_hertz=16000,
         language_code="en-US",
         enable_word_time_offsets=True,
@@ -20,6 +20,8 @@ def transcribe_gcs_with_word_time_offsets(speech_file):
 
     print("Waiting for operation to complete...")
     result = operation.result(timeout=90)
+    # print("hello??")
+    # print(result)
 
     for result in result.results:
         alternative = result.alternatives[0]
@@ -35,4 +37,4 @@ def transcribe_gcs_with_word_time_offsets(speech_file):
                 f"Word: {word}, start_time: {start_time.total_seconds()}, end_time: {end_time.total_seconds()}"
             )
 
-transcribe_gcs_with_word_time_offsets("./lavieboheme.m4a")
+transcribe_gcs_with_word_time_offsets("./testfile2.mp3")
