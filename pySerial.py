@@ -14,12 +14,12 @@ def write(x):
 while True:
     inputWord = input("Enter a word: ").lower()
     for i in wordsBad:
-        if inputWord == i:
+        if i in inputWord:
             write("1")
         else:
             write("0")
     for j in wordsVeryBad:
-        if inputWord == j:
+        if j in inputWord:
             write("4")
         else:
             write("0")
