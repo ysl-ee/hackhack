@@ -9,22 +9,27 @@ const int colorG = 0;
 const int colorB = 0;
 
 int curseCounter = 0;
-bool safeHarbor = TRUE;
+bool safeHarbor = FALSE;
 int allowedCurse = 0;
 int checks[4];
 int currTime;
 int grLED = 2;
-int grButt = 3;
+int bCurse = 3;
+int bHarbor = 4;
 int rLED = 5;
 int yLED = 6;
 int gLED = 7;
-int rButt = 9;
+int bReset = 8;
 
 void setup() {
   // grove LED
   pinMode(grLED, OUTPUT);
-  // grove button
-  pinMode(grButt, INPUT);
+  // cursing button
+  pinMode(bCurse, INPUT);
+  // harbor swap
+  pinMode(bHarbor, INPUT);
+  // reset button
+  pinMode(bReset, INPUT);
   // red LED
   pinMode(rLED, OUTPUT);
   // yellow LED
@@ -32,7 +37,6 @@ void setup() {
   // green LED
   pinMode(gLED, OUTPUT);
   // breadboard button
-  pinMode(rButt, INPUT_PULLUP);
   lcd.begin(16, 2);
   lcd.clear();
   lcd.display();
@@ -41,6 +45,17 @@ void setup() {
   } else {
     allowedCurse = 0;
   }
+}
+
+void setHarbor() {
+  safeHarbor = !safeHarbor;
+  if (safeHarbor) {
+    allowedCurse = 3;
+  }
+  else {
+    allowedCurse = 0;
+  }
+  delay(200);
 }
 
 void printStats() {
@@ -79,11 +94,15 @@ void badLEDs() {
   digitalWrite(rLED, HIGH);
 }
 
+void reset() {
+  safeHarbor = FALSE;
+  curseCounter = 0;
+}
+
 void loop() {
-  /* if (digitalRead(rButt) == HIGH) {
-    safeHarbor = !safeHarbor;
-    delay(200);
-  } */
+  if (digitalRead(bHarbor) == HIGH) {
+    setHarbor();
+  }
   if (safeHarbor) {
     if (curseCounter <= allowedCurse && curseCounter != 0) {
       currTime = millis();
@@ -111,12 +130,16 @@ void loop() {
       goodLEDs();
     }
   }
-  if (digitalRead(grButt) == HIGH) {
+  if (digitalRead(bCurse) == HIGH) {
     digitalWrite(grLED, HIGH);
     checks[curseCounter] = millis();
     curseCounter++;
     delay(200);
     digitalWrite(grLED, LOW);
+  }
+  if (digitalRead(bReset) == HIGH) {
+    reset();
+    delay(200);
   }
   printStats();
 }
