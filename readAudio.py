@@ -1,5 +1,7 @@
 import os
 from google.cloud import speech
+import time
+from datetime import datetime
 
 os.environ['GOOGLE_APPLICATION_CREDENTIALS'] = 'key.json'
 speech_client = speech.SpeechClient 
@@ -11,7 +13,9 @@ def speech_to_text(config, audio):
 
 
 def print_sentences(response):
-    f = open('audio.txt', 'w+')
+    mytime = datetime.now().strftime('%Y-%m-%d_%H:%M:%S')
+    filename = "audio_%s.txt" % mytime
+    f = open(filename, 'w+')
     for result in response.results:
         best_alternative = result.alternatives[0]
         transcript = best_alternative.transcript
