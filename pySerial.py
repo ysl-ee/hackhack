@@ -30,6 +30,10 @@ g = 0
 for h in wordsIn: 
     hStart = int(startsIn[g])
     hEnd = int(endsIn[g])
+    if g == 0:
+        time.sleep(hStart)
+    else:
+        time.sleep(hStart - endsIn[g - 1])
     for i in wordsBad:
         if i in h:
             write("1")
@@ -40,5 +44,5 @@ for h in wordsIn:
             write("4")
         else:
             write("0")
-    time.sleep((hEnd - hStart) * 0.25)
+    time.sleep(hEnd - hStart)
     g += 1
