@@ -1,11 +1,19 @@
-def transcribe_gcs_with_word_time_offsets(speech_file):
+import csv
+import os
+
+def transcribe_gcs_with_word_time_offsets(mypath, index):
+    csvpath = "%s/transcribed.csv" % mypath
+    speechfile = "%s/%d.mp3" %(mypath, index)
+    f = open(csvpath, 'a')
+    writer = csv.writer(f)
+
     """Transcribe the given audio file asynchronously and output the word time
     offsets."""
     from google.cloud import speech
 
     client = speech.SpeechClient()
 
-    with open(speech_file, "rb") as audio_file:
+    with open(speechfile, "rb") as audio_file:
         content = audio_file.read()
 
     audio = speech.RecognitionAudio(content=content)
@@ -20,8 +28,6 @@ def transcribe_gcs_with_word_time_offsets(speech_file):
 
     print("Waiting for operation to complete...")
     result = operation.result(timeout=90)
-    # print("hello??")
-    # print(result)
 
     for result in result.results:
         alternative = result.alternatives[0]
@@ -33,8 +39,10 @@ def transcribe_gcs_with_word_time_offsets(speech_file):
             start_time = word_info.start_time
             end_time = word_info.end_time
 
-            print(
-                f"Word: {word}, start_time: {start_time.total_seconds()}, end_time: {end_time.total_seconds()}"
-            )
+            # print(
+            #     f"Word: {word}, start_time: {start_time.total_seconds()}, end_time: {end_time.total_seconds()}"
+            # )
+            #print("Word: %s, start_time: %s, end_time: %s" %(word, start_time.total_seconds(), end_time.total_seconds()))
+            writer.writerow([word, start_time.total_seconds(), end_time.total_seconds()])
 
-transcribe_gcs_with_word_time_offsets("./testfile2.mp3")
+transcribe_gcs_with_word_time_offsets("./testpath", 0)
