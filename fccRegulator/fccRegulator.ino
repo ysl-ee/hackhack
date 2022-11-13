@@ -20,6 +20,7 @@ int rLED = 5;
 int yLED = 6;
 int gLED = 7;
 int bReset = 8;
+int curse;
 
 void setup() {
   // grove LED
@@ -45,14 +46,15 @@ void setup() {
   } else {
     allowedCurse = 0;
   }
+  Serial.begin(115200);
+  Serial.setTimeout(1);
 }
 
 void setHarbor() {
   safeHarbor = !safeHarbor;
   if (safeHarbor) {
     allowedCurse = 3;
-  }
-  else {
+  } else {
     allowedCurse = 0;
   }
   delay(200);
@@ -97,6 +99,7 @@ void badLEDs() {
 void reset() {
   safeHarbor = FALSE;
   curseCounter = 0;
+  lcd.clear();
 }
 
 void loop() {
@@ -130,9 +133,23 @@ void loop() {
       goodLEDs();
     }
   }
+  if (Serial.available()) {
+    curse = Serial.readString().toInt();
+    if (curse != 0) {
+      digitalWrite(grLED, HIGH);
+      if (curseCounter <= allowedCurse) {
+        checks[curseCounter] = millis();
+      }
+      curseCounter += curse;
+      delay(100);
+      digitalWrite(grLED, LOW);
+    }
+  }
   if (digitalRead(bCurse) == HIGH) {
     digitalWrite(grLED, HIGH);
-    checks[curseCounter] = millis();
+    if (curseCounter <= allowedCurse) {
+      checks[curseCounter] = millis();
+    }
     curseCounter++;
     delay(200);
     digitalWrite(grLED, LOW);
