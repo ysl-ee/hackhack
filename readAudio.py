@@ -1,7 +1,9 @@
 import csv
 import os
+import sys
 
 def transcribe_gcs_with_word_time_offsets(mypath, index):
+    index = int(index)
     csvpath = "%s/transcribed.csv" % mypath
     speechfile = "%s/%d.mp3" %(mypath, index)
     f = open(csvpath, 'a')
@@ -45,4 +47,4 @@ def transcribe_gcs_with_word_time_offsets(mypath, index):
             #print("Word: %s, start_time: %s, end_time: %s" %(word, start_time.total_seconds(), end_time.total_seconds()))
             writer.writerow([word, start_time.total_seconds(), end_time.total_seconds()])
 
-transcribe_gcs_with_word_time_offsets("./testpath", 0)
+transcribe_gcs_with_word_time_offsets(sys.argv[1], sys.argv[2])
