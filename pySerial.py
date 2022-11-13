@@ -27,16 +27,14 @@ def parseText(mypath):
             startsIn.append(row['start_time'])
             endsIn.append(row['end_time'])
 
-    print("done")
-
     g = 0
     for h in wordsIn: 
-        hStart = int(startsIn[g])
-        hEnd = int(endsIn[g])
+        hStart = float(startsIn[g])
+        hEnd = float(endsIn[g])
         if g == 0:
             time.sleep(hStart)
         else:
-            time.sleep(hStart - endsIn[g - 1])
+            time.sleep(hStart - float(endsIn[g - 1]))
         for i in wordsBad:
             if i in h:
                 write("1")
@@ -51,3 +49,4 @@ def parseText(mypath):
         g += 1
 
 parseText(sys.argv[1])
+print("done")
