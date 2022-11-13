@@ -4,7 +4,7 @@ import math
 import sys
 
 def chopAudio(mypath, index, audiofile):
-    print("audiofile: " + audiofile)
+#    print("audiofile: " + audiofile)
     audio = AudioSegment.from_mp3(audiofile)
     index = int(index)
 
@@ -17,9 +17,11 @@ def chopAudio(mypath, index, audiofile):
     if (starttime > len):
         print("DONE")
         return
+    # else:
+    #     print("GO")
     thisseg = audio[starttime:endtime]
     thispath = os.path.join(mypath, "%d.mp3" %index)
     thisseg.export(thispath, format = "mp3")
 
-chopAudio(sys.argv[1], sys.argv[3], sys.argv[2])
-chopAudio(sys.argv[1], sys.argv[4], sys.argv[2])
+chopAudio(sys.argv[1], sys.argv[2], sys.argv[3])
+
