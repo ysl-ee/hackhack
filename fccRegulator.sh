@@ -24,9 +24,7 @@ do
     $( python3 readAudio.py $mypath $i )
 
     # check for bad words
-    $( python3 pySerial.py $mypath $i )
-
-    # send to arduino
+    $( python3 pySerial.py $mypath )
 
     $i=$i+1
 
